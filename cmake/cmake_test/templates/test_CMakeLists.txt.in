@@ -5,6 +5,16 @@
 cmake_minimum_required(VERSION @_ct_min_cmake_version@) #Required for FetchContent_MakeAvailable()
 set(_ct_min_cmake_version @_ct_min_cmake_version@) #Propagate min version down
 
+# Suppress try compile checks when configuring tests
+set(CMAKE_C_COMPILER_WORKS ON)
+set(CMAKE_C_COMPILER_WORKS ${CMAKE_C_COMPILER_WORKS} CACHE INTERNAL "CMakeTest Environment Override")
+
+if(WIN32)
+    # Suppress ZERO_CHECK generation for VisualStudio
+    set(CMAKE_SUPPRESS_REGENERATION ON)
+    set(CMAKE_SUPPRESS_REGENERATION ${CMAKE_SUPPRESS_REGENERATION} CACHE INTERNAL "CMakeTest Environment Override")
+endif()
+
 # A language is set so the dummy projects don't complain about not having a
 # linkage language.
 project(@_CT_CMAKELISTS_TEMPLATE_PROJECT_NAME@ LANGUAGES C)
