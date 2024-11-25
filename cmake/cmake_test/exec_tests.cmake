@@ -14,6 +14,14 @@
 
 include_guard()
 
+# This file is only included from within test environments (see
+# `templates/test_CMakeLists.txt.in`.) Previously this file and the following
+# includes were required globally, causing the overrides (`message()`) to leak
+# into other parts of the build and polluting unrelated stack traces. See:
+# https://crascit.com/2018/09/14/do-not-redefine-cmake-commands/
+include(cmake_test/overrides)
+include(cmake_test/register_exception_handler)
+
 #[[[
 # Execute all declared tests in a file. This function will be ran after ``include()``-ing the test file.
 # This function will loop over all the CTExecutionUnit instances stored in the CMAKETEST_TEST_INSTANCES
