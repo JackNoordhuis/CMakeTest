@@ -188,7 +188,7 @@ Specify a binary directory for tests with add_dir(<dir> BINARY_DIR \"A/Shorter/P
             _CT_CMAKELISTS_TEMPLATE_PROJECT_NAME "${_ad_test_name}"
         )
 
-        if (ADD_DIR_FLAT_PATH_NAMES)
+        if(ADD_DIR_FLAT_PATH_NAMES)
             set(_ad_test_dest_full_path
                 "${_ad_test_binary_dir}/${_ad_test_rel_path}"
             )
@@ -284,59 +284,8 @@ Specify a binary directory for tests with add_dir(<dir> BINARY_DIR \"A/Shorter/P
                 ${ADD_DIR_CMAKE_OPTIONS}
         )
 
-        if (NOT "${ADD_DIR_LABEL}" STREQUAL "")
+        if(NOT "${ADD_DIR_LABEL}" STREQUAL "")
             set_property(TEST "${_ad_test_name}" PROPERTY LABELS ${ADD_DIR_LABEL})
         endif()
     endforeach()
-
-#
-#    file(GLOB_RECURSE _ad_files LIST_DIRECTORIES FALSE FOLLOW_SYMLINKS "${_ad_abs_test_dir}/*.cmake") #Recurse over target dir to find all cmake files
-#
-#    # This variable will be picked up by the template
-#    set(ct_debug_mode "${ADD_DIR_CT_DEBUG_MODE_ON}")
-#
-#    foreach(_ad_test_file ${_ad_files})
-#        #Find rel path so we don't end up with insanely long paths under test folders
-#        file(RELATIVE_PATH _ad_rel_path "${_ad_abs_test_dir}" "${_ad_test_file}")
-#        string(REPLACE "/" "." _ad_test_name "${_ad_rel_path}")
-#        string(REPLACE ":" "_" _ad_test_name "${_ad_test_name}")
-#
-#        if(NOT "${ADD_DIR_NAMESPACE}" STREQUAL "")
-#            set(_ad_test_name "${ADD_DIR_NAMESPACE}.${_ad_test_name}")
-#        endif()
-#
-#        set(_ad_test_binary_dir "${_ad_binary_dir}/${_ad_rel_path}")
-#        set(_ad_exec_dir "${_ad_test_binary_dir}") # Source and working directory where CMake configuration will take place.
-#
-#        if(WIN32)
-#            file(MAKE_DIRECTORY "${_ad_test_binary_dir}")
-#            string(SHA256 _ad_bin_dir_hash "${_ad_test_binary_dir}")
-#            string(SUBSTRING "${_ad_bin_dir_hash}" 0 ${_ad_bin_dir_trim_length} _ad_bin_dir_hash)
-#
-#            file(CREATE_LINK "${_ad_test_binary_dir}" "${CMAKE_BINARY_DIR}/CMakeTest/${_ad_bin_dir_hash}"
-#                SYMBOLIC
-#                RESULT _ad_bin_dir_link_result
-#            )
-#
-#            if(NOT ${_ad_bin_dir_link_result} EQUAL 0)
-#                message(FATAL_ERROR "Failed to create symbolic link for test build directory.
-#From: \"${_ad_binary_dir}\" To: \"${CMAKE_BINARY_DIR}/CMakeTest/${_ad_bin_dir_hash}\"
-#Error message: ${_ad_bin_dir_link_result}")
-#            endif()
-#
-#            set(_ad_exec_dir "${CMAKE_BINARY_DIR}/CMakeTest/${_ad_bin_dir_hash}")
-#        endif()
-#
-#        add_test(
-#        NAME
-#            "${_ad_test_name}"
-#        WORKING_DIRECTORY "${_ad_exec_dir}"
-#        COMMAND
-#            "${CMAKE_COMMAND}"
-#               -S "${_ad_exec_dir}"
-#               -B "${_ad_exec_dir}/build"
-#               -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-#               ${ADD_DIR_CMAKE_OPTIONS}
-#        )
-#    endforeach()
 endfunction()
