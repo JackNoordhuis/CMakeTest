@@ -24,9 +24,6 @@
 
 include_guard()
 
-# This ensures the _message() command is valid no matter when this file is included
-include(cmake_test/overrides)
-
 #[[[
 # Defines the exception handler and registers it with CMakePP.
 #
